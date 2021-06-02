@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "./Home";
 //import { useStateValue } from './StateProvider'
 import React, { useState } from "react";
+import NloginScree from "./NloginScree";
 
 
 
@@ -15,7 +16,8 @@ function App() {
     <div>
       <Router>
         {!userr ? (
-          <LoginScree onClick={value => setUserr(value)}/>
+          <NloginScree/>
+          
         ) : (
           <>
             <Switch>
