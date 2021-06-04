@@ -6,23 +6,19 @@ import Home from "./Home";
 import React, { useState } from "react";
 import NloginScree from "./NloginScree";
 
-
-
 function App() {
- 
   const [userr, setUserr] = useState("");
   console.log(userr);
   return (
     <div>
       <Router>
         {!userr ? (
-          <NloginScree/>
-          
+          <NloginScree onClick={(value) => setUserr(value)} />
         ) : (
           <>
             <Switch>
               <Route path="/" exact>
-                <Home onClick={value => setUserr(value)}/>
+                <Home onClick={(value) => setUserr(value)} />
               </Route>
             </Switch>
           </>

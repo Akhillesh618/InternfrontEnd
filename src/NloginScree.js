@@ -1,32 +1,81 @@
-import React from "react";
+import React, { useState } from "react";
 import "./NloginScree.css";
-const container = document.getElementById('container');
+import qs from "qs";
+import axios from "axios";
 
-export default function NloginScree() {
+const NloginScree = (props) => {
+  const [isLoading, setLoading] = useState("container");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+
   function btnsignin() {
-    alert("Clicked Sign");
+    axios({
+      method: "post",
+      url: "http://medha.dachrs.com:8000/accounts/login/",
+      data: qs.stringify({
+        email: email,
+        password: password,
+      }),
+    })
+      .then(function (response) {
+        setLoading(false);
+        props.onClick(response.data.token);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
   function btnsignup() {
-    alert("Clicked SignUp");
+    axios({
+      method: "post",
+      url: "http://medha.dachrs.com:8000/accounts/register/",
+      data: qs.stringify({
+        email: email,
+        password: password,
+        username: username,
+      }),
+      headers: {
+        "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+      },
+    })
+      .then(function (response) {
+        console.log(response.data.message);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
   }
   function csbtnsignin() {
-    container.classList.remove("right-panel-active");
-    
+    setLoading("container"); //this will slide the pannel to SignIn
   }
   function csbtnsignup() {
-    container.classList.add("right-panel-active");
+    setLoading("container right-panel-active"); //this will slide the pannel to SignUp
   }
+
   return (
     <div>
       <h2>..</h2>
-      <div className="container" id="container">
+      <div className={isLoading} id="container">
         <div className="form-container sign-up-container">
           <form action="#">
             <h1>Create Account</h1>
 
-            <input type="text" placeholder="Name" />
-            <input type="email" placeholder="Email" />
-            <input type="password" placeholder="Password" />
+            <input
+              type="text"
+              placeholder="Name"
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <input
+              type="email"
+              placeholder="Email"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
             <button onClick={btnsignup}>Sign Up</button>
           </form>
         </div>
@@ -34,8 +83,16 @@ export default function NloginScree() {
           <form action="#">
             <h1>Sign in</h1>
 
-            <input type="email" placeholder="Email" />
-            <input type="password" placeholder="Password" />
+            <input
+              type="email"
+              placeholder="Email"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
 
             <button onClick={btnsignin}>Sign In</button>
           </form>
@@ -64,4 +121,5 @@ export default function NloginScree() {
       <scripts></scripts>
     </div>
   );
-}
+};
+export default NloginScree;

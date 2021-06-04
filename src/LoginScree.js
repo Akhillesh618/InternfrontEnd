@@ -22,9 +22,6 @@ const LoginScree = (props) => {
         password: password,
         username: username,
       }),
-      headers: {
-        "content-type": "application/x-www-form-urlencoded;charset=utf-8",
-      },
     })
       .then(function (response) {
         setResponseData(response.data.message);
@@ -34,6 +31,7 @@ const LoginScree = (props) => {
       });
   };
   const Clicked = function (event) {
+    props.onClick("hello")
     axios({
       method: "post",
       url: "http://medha.dachrs.com:8000/accounts/login/",
@@ -41,9 +39,6 @@ const LoginScree = (props) => {
         email: email,
         password: password,
       }),
-      headers: {
-        "content-type": "application/x-www-form-urlencoded;charset=utf-8",
-      },
     })
       .then(function (response) {
         // console.log(response.data.token);
@@ -61,7 +56,7 @@ const LoginScree = (props) => {
         type: "SET_USER",
         user: responsetoken,
       });
-       console.log(responsetoken)
+      console.log(responsetoken);
     }
   };
 
